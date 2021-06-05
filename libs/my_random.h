@@ -1,32 +1,19 @@
 #ifndef MY_RANDOM_H
 #define MY_RANDOM_H
+
 #include <stdlib.h>
+
+/* 
+ * Even though we find a RNG in stdlib, it is not cryptographically
+ * secure. Ideally, we should implement later with libsodium.
+ * 
+ * https://github.com/jedisct1/libsodium
+ * 
+ *  */
+
 #include <time.h>
-
-extern unsigned int int_seed;
-extern unsigned long long_seed;
-
-unsigned my_randint();
-unsigned my_randint_mod(const int mod);
-unsigned long my_randlong();
-unsigned long my_randlong_mod(const long mod);
-
 void time_seed();
-
-#define SHUFFLE 128
-
-/*
-   A escolha do multiplicador como um número primo se deve
-à sugestão dos links abaixo. Também devo a eles a macro de otimização
-
-*  https://stackoverflow.com/questions/2624192/good-hash-function-for-strings
-*  https://computinglife.wordpress.com/2008/11/20/why-do-hash-functions-use-prime-numbers/
-
- */
-
-#define SEED_ORIGINAL 8589381
-#define MULTIPLICADOR 31
-#define MULT_31(X) ((X << 5) - X)
+void set_seed(const int seed);
 
 /* Maiores valores possíveis para cada um dos tipos */
 
@@ -35,11 +22,7 @@ void time_seed();
 #define INT_MAX   0xffffffffU
 #define LONG_MAX  0xffffffffffffffffU
 
-/* Os magic numbers podem ser compreendidos a partir dos links disponíveis
-nos comentários de my_random.c */
-
-#define MAGIC_A 1103515245
-#define MAGIC_B 12345
+unsigned randint_mod(const int mod);
 
 /* ALGORITMOS DE HASH DE TAMANHO VARIÁVEL (8 a 64 BITS) */
 
@@ -70,6 +53,6 @@ unsigned long  hash_long(const char *s);
 
 char *cria_random_str(const int len);
 
-void sorteia_array(const int n, const int r_max, const int seed, int v[]);
+void sorteia_array(const int n, const int r_max, int v[]);
 
 #endif
