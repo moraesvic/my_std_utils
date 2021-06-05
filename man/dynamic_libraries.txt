@@ -1,0 +1,10 @@
+## Use the following
+## https://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
+
+gcc -c -Wall -fpic minhalib.c -o minhalib.o
+gcc -shared -o libminhalib.so minhalib.o
+sudo cp libminhalib.so /usr/lib
+sudo chmod 0755 /usr/lib/libminhalib.so
+sudo ldconfig
+ldconfig -p | grep minhalib
+gcc -Wall -o meu_programa main.c -lminhalib

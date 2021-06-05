@@ -1,0 +1,3 @@
+FLAGS_DEV=-Wall -g -pg
+FLAGS_PROD=-Wall -O2
+LIBS=../libs
