@@ -1,5 +1,25 @@
 #include "my_string.h"
 
+int ehBranco(char c){
+  return c == ' ' || c == '\n';
+}
+
+int ehAlfanumerico(char c){
+  return (c >= 'a' && c <= 'z') ||
+         (c >= 'A' && c <= 'Z') ||
+         (c >= '0' && c <= '9');
+}
+
+char * cortaStr(char * strOriginal, int ini, int fim){
+  int i;
+  char * novo;
+  novo = calloc(fim - ini + 1, sizeof(char));
+  for(i = ini; i < fim; i++) novo[i-ini] = strOriginal[i];
+  return novo;
+}
+
+/* */
+
 void inverteString(char *str, int n){
   char temp = calloc(n, sizeof(char));
   int i;
