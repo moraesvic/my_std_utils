@@ -102,3 +102,13 @@ char *cria_random_str(const int len){
     }
     return s;
 }
+
+/* */
+
+void sorteia_array(const int n, const int r_max, const int seed, int v[]){
+    int i;
+    int_seed = seed;
+    for(i=0; i < n; i++)
+        v[i] = my_randint_mod(const int r_max);
+    free(rg);
+}

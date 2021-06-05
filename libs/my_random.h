@@ -70,4 +70,6 @@ unsigned long  hash_long(const char *s);
 
 char *cria_random_str(const int len);
 
+void sorteia_array(const int n, const int r_max, const int seed, int v[]);
+
 #endif
