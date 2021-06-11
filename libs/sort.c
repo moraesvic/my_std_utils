@@ -1,22 +1,14 @@
-/*--------------------------------------------------
-EP 3 - MAC 0121
-PROF. CARLOS EDUARDO FERREIRA
-VICTOR MORAES DE OLIVEIRA - 8589381
---------------------------------------------------*/
-
 #include "sort.h"
-#include "vetor.h"
-#include "matriz.h"
 
 void selection_sort(const int n, int v[]){
     if(n == 0)
         return;
     int i, j, temp, min, minIndex;
-    for(j=0; j < config.n; j++){
+    for(j=0; j < n; j++){
         min = v[j];
         minIndex = j;
-        for(i=j+1; i < config.n; i++)
-            if(min > v[i])){
+        for(i=j+1; i < n; i++)
+            if(min > v[i]){
                 min = v[i];
                 minIndex = i;
             }
@@ -32,23 +24,13 @@ void bubble_sort(const int n, int v[]){
     int i, temp, haAlteracao = 1;
     while(haAlteracao){
         haAlteracao = 0;
-        for(i=1; i < config.n; i++)
-            if(v[i-1] > v[i])){
+        for(i=1; i < n; i++)
+            if(v[i-1] > v[i]){
                 temp = v[i-1];
                 v[i-1] = v[i];
                 v[i] = temp;
                 haAlteracao = 1;
             }
-    }
-}
-
-void insert_sort_2(const int n, int v[]){
-    int i, j, temp;
-    for(j = 1; j < n; j++){
-        temp = v[j];
-        for(i= j-1; i >= 0 && v[i] > temp; i--)
-            v[i+1] = v[i];
-        v[i+1] = temp;
     }
 }
 
@@ -98,10 +80,6 @@ int separa(const int p, const int r, int v[]){
     const int pivo = v[r];
     int j, k, temp;
 
-    if(DEBUG){
-        printf("separa\n");
-        printf("pivo = %d\n", pivo);
-    }
     for(j = p, k = p; k < r; ++k){
         if(v[k] <= pivo){
             temp = v[j];
@@ -113,8 +91,6 @@ int separa(const int p, const int r, int v[]){
     v[r] = v[j];
     v[j] = pivo;
 
-    if(DEBUG)
-        printf("j escolhido = %d, v[%d] = %d\n", j, j, v[j]);
     return j;
 }
 
@@ -122,8 +98,7 @@ void quick_sort_2(const int p, const int r, int v[]){
     if(p >= r)
         return;    
     int j;
-    j = separa(p, r, v, cont);
-    if(DEBUG) print_vetor(r-p,v);
+    j = separa(p, r, v);
     quick_sort_2(p, j-1, v);
     quick_sort_2(j+1, r, v);
 }
@@ -155,11 +130,11 @@ void count_sort(const int n, const int r_max, const int r_min, int v[]){
 
 void radix_sort(const int n, int v[]){
     int i, max, dig, size_aux0, size_aux1;
-    int *aux0 = malloc(config.n * sizeof(int));
-    int *aux1 = malloc(config.n * sizeof(int));
+    int *aux0 = malloc(n * sizeof(int));
+    int *aux1 = malloc(n * sizeof(int));
     /* determinar o maior número no vetor */
     max = v[0];
-    for(i = 1; i < config.n; i++)
+    for(i = 1; i < n; i++)
         if(v[i] > max) max = v[i];
     /* tiramos 1 para não dar overflow */
     for(i = 1; (1 << i) < max && i < 8*sizeof(int) - 1; i++);
@@ -169,13 +144,13 @@ void radix_sort(const int n, int v[]){
     for(dig = 0; dig < max_dig; dig++){
         size_aux0 = 0;
         size_aux1 = 0;
-        for(i = 0; i < config.n; i++){
+        for(i = 0; i < n; i++){
             if( v[i] & (1 << dig) )
                 aux1[size_aux1++] = v[i];
             else
                 aux0[size_aux0++] = v[i];
         }
-        concatena_vetor(n, size_aux0, v, aux0, aux1);
+        concatena_array(n, size_aux0, v, aux0, aux1);
     }
     free(aux0);
     free(aux1);
@@ -202,28 +177,27 @@ int overflow_mult(int a, int b){
 void bucket_sort(const int n, const int r_max, const int r_min, int v[]){
     /* Utiliza insert_sort como auxiliar */
     const int range = r_max - r_min;
-    const int n_urnas = ceil_div(n, MEDIA_ITENS_URNA);
+    const int n_urnas = ceil_div(n, BUCKET_AVG_SIZE);
     int tam;
-    if(overflow_mult(MEDIA_ITENS_URNA, range))
-        tam = MEDIA_ITENS_URNA * ceil_div(range, n);
+    if(overflow_mult(BUCKET_AVG_SIZE, range))
+        tam = BUCKET_AVG_SIZE * ceil_div(range, n);
     else
-        tam = ceil_div(MEDIA_ITENS_URNA * range, n);
+        tam = ceil_div(BUCKET_AVG_SIZE * range, n);
     int i, key;
     /* criação das urnas */
     /* usei aqui uma versão rudimentar do que depois aprendemos
     como listas ligadas */
     Vetor_Int ** urnas = malloc(n_urnas * sizeof(Vetor_Int*));
     for(i = 0; i < n_urnas; i++)
-        urnas[i] = Vetor_Int_cria(MEDIA_ITENS_URNA, MEDIA_ITENS_URNA);
+        urnas[i] = Vetor_Int_cria(BUCKET_AVG_SIZE, BUCKET_AVG_SIZE);
     /* distribuição dos elementos em urnas / baldes */
     for(i = 0; i < n; i++){
-        key = floor_div((v[i] - config.r_min), tam);
+        key = floor_div((v[i] - r_min), tam);
         Vetor_Int_add(urnas[key], v[i]);
-        cont->movim++;
     }
     /* organização interna das urnas */
     for(i = 0; i < n_urnas; i++)
-        insert_sort_2(urnas[i]->topo, urnas[i]->v, cont);
+        insert_sort(urnas[i]->topo, urnas[i]->v);
     /* concatenação das urnas */
     Vetor_Int_to_array(urnas, n_urnas, v);
     for(i = 0; i < n_urnas; i++)

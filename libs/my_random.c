@@ -2,7 +2,7 @@
 
 unsigned randint_mod(const int mod){
     unsigned end, r;
-    if ((mod - 1) == INT_MAX) return my_randint();
+    if ((mod - 1) == INT_MAX) return rand();
     end = INT_MAX / mod;
     end *= mod;
     while( (r = rand()) >= end);
@@ -48,6 +48,5 @@ char *cria_random_str(const int len){
 void sorteia_array(const int n, const int r_max, int v[]){
     int i;
     for(i = 0; i < n; i++)
-        v[i] = randint_mod(const int r_max);
-    free(rg);
+        v[i] = randint_mod(r_max);
 }

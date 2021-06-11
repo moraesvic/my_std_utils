@@ -1,5 +1,9 @@
 #include "my_string.h"
 
+void print_int_asbin(const int n){
+  printf(BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(v[i]));
+}
+
 int ehBranco(char c){
   return c == ' ' || c == '\n';
 }

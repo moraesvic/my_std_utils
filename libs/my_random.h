@@ -26,6 +26,8 @@ unsigned randint_mod(const int mod);
 
 /* ALGORITMOS DE HASH DE TAMANHO VARIÁVEL (8 a 64 BITS) */
 
+#define MULT_31(X) ((X << 5) - X)
+
 unsigned char  hash_char(const char *s);
 unsigned short hash_short(const char *s);
 unsigned int   hash_int(const char *s);
