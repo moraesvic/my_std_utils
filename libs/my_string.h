@@ -20,6 +20,13 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0') 
 
+enum ERROR_TYPE{
+  STRTOL_ERROR = 1,
+  STRTOI_ERROR,
+  STRTOUINT_ERROR,
+  CONTRADICTORY_ARGS_ERROR
+};
+
 /* "safe" functions to read natural numbers */
 
 long mystrtol(char * str, int base);
