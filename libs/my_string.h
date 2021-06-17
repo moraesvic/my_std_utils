@@ -20,6 +20,16 @@
   (byte & 0x02 ? '1' : '0'), \
   (byte & 0x01 ? '1' : '0') 
 
+/* "safe" functions to read natural numbers */
+
+long mystrtol(char * str, int base);
+
+int strtoi(char * str, int base);
+
+unsigned strtouint(char * str, int base);
+
+/* */
+
 void print_int_asbin(const int n);
 
 void inverteString(char *str, int n);
