@@ -65,7 +65,7 @@ unsigned strtouint(char * str, int base){
 /* */
 
 void print_int_asbin(const int n){
-  printf(BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(v[i]));
+  printf(BYTE_TO_BINARY_PATTERN"\n", BYTE_TO_BINARY(n));
 }
 
 int ehBranco(char c){
@@ -89,7 +89,7 @@ char * cortaStr(char * strOriginal, int ini, int fim){
 /* */
 
 void inverteString(char *str, int n){
-  char temp = calloc(n, sizeof(char));
+  char *temp = calloc(n, sizeof(char));
   int i;
   for(i = 0; i < n; i++) temp[n-1-i] = str[i];
   for(i = 0; i < n; i++) str[i] = temp[i];

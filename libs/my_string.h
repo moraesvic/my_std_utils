@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h> // for downgrading long to int
 
 #define LENUM_BUFFER_SIZE 32
 #define LEPALAVRA_BUFFER_SIZE 32
