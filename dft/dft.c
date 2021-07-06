@@ -74,6 +74,7 @@ void print_cpx(struct Complex cpx, unsigned harm)
 /* 
 Probably the best idea is using a well-tested and fast implementation
 https://www.fftw.org/
+https://sourceforge.net/projects/kissfft/
 */
 
 int main()
