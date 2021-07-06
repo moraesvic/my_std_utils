@@ -87,23 +87,6 @@ uint32_t apply_inst(Instruction inst, char * s)
     return ret;
 }
 
-unsigned randint_mod(const int mod)
-{
-    unsigned end, r;
-    if ((mod - 1) == INT_MAX) return rand();
-    end = INT_MAX / mod;
-    end *= mod;
-    while( (r = rand()) >= end);
-    return r % mod;
-}
-
-int32_t rand_sign()
-{
-    return (rand() & 1) ? 1 : -1;
-}
-
-void time_seed(){ srand(time(NULL)); }
-
 Instruction gen_inst()
 {
     Instruction inst;
@@ -170,40 +153,6 @@ void print_fullinst(FullInst fi)
     printf("\n");
 }
 
-inline uint32_t is_in_alphabet(Alphabet ab, char ch)
-{
-    uint32_t i;
-    for (i = 0; i < ab.sz; i++)
-        if (ab.symb[i] == ch)
-            return 1;
-    return 0;
-}
-
-Alphabet start_alphabet(char *input)
-{
-    uint32_t i;
-    Alphabet ab;
-    ab.sz = 0;
-    for (i = 0; input[i] != 0; i++)
-        if (!is_in_alphabet(ab, input[i]))
-            ab.symb[ab.sz++] = input[i];
-    return ab;
-}
-
-void print_alphabet(Alphabet ab)
-{
-    uint32_t i;
-    printf("Alphabet with %u symbols: ", ab.sz);
-    for (i = 0; i < ab.sz; i++)
-        printf("%c", ab.symb[i]);
-    printf("\n");
-}
-
-static inline char pick_from_alphabet()
-{
-    return alphabet.symb[randint_mod(alphabet.sz)];
-}
-
 uint32_t apply_fullinst(FullInst fi, char *s)
 {
     uint32_t ret = OK;
@@ -212,16 +161,18 @@ uint32_t apply_fullinst(FullInst fi, char *s)
     return ret;
 }
 
-typedef struct _indiv {
-    uint32_t score;
-    FullInst fi[INST_SZ];
-} Indiv;
+Indiv *gen_indiv(uint32_t n_genes)
+{
+    uint32_t i;
+    Indiv *indiv = malloc(sizeof(Indiv));
+    indiv->score = UINT32_MAX;
+    indiv->n_genes = n_genes;
+    indiv->fi = malloc(sizeof(FullInst) * n_genes);
+    for (i = 0; i < n_genes; i++)
+        indiv->fi[i] = gen_fullinst();
+    return indiv;
+}
 
-typedef struct _pop {
-    uint32_t sz;
-    uint32_t it;
-    Indiv **indiv;
-} Pop;
 
 void print_indiv(Indiv * indiv, char *deriv)
 {
@@ -230,7 +181,7 @@ void print_indiv(Indiv * indiv, char *deriv)
     strcpy(write_str, deriv);
     printf("SCORE = %u\n", indiv->score);
     printf("INSTRUCTION SET\n\n");
-    for (i = 0; i < INST_SZ; i++) {
+    for (i = 0; i < indiv->n_genes; i++) {
         apply_fullinst(indiv->fi[i], write_str);
         print_fullinst(indiv->fi[i]);
     }
@@ -243,23 +194,24 @@ void print_pop(Pop *pop, char *deriv)
 
     printf("Population consists of %u individuals\n", pop->sz);
     printf("We have run %u iterations\n", pop->it);
-    for (i = 0; i < HALL_OF_FAME_SZ; i++)
+    for (i = 0; i < MAX_PRINT; i++)
         print_indiv(pop->indiv[i], deriv);
 }
 
-Pop *gen_pop(uint32_t sz) {
+Pop *gen_pop
+(uint32_t sz, uint32_t n_genes, double mut_rate,
+double co_rate, double best_perc)
+{
     uint32_t i, j;
     Pop *pop = malloc(sizeof(Pop));
     pop->sz = sz;
+    pop->mut_thresh = (int)((double)INT_MAX * mut_rate);
+    pop->co_thresh = (int)((double)INT_MAX * co_rate);
+    pop->best_genes_sz = (int)((double)pop->sz * best_perc);
     pop->it = 0;
     pop->indiv = malloc(sizeof(Indiv *) * pop->sz);
-    for (i = 0; i < pop->sz; i++) {
-        pop->indiv[i] = malloc(sizeof(Indiv));
-        for (j = 0; j < INST_SZ; j++) {
-            pop->indiv[i]->score = UINT32_MAX;
-            pop->indiv[i]->fi[j] = gen_fullinst();
-        }
-    }
+    for (i = 0; i < pop->sz; i++)
+        pop->indiv[i] = gen_indiv(n_genes);
     return pop;
 }
 
@@ -267,7 +219,7 @@ inline uint32_t run_indiv(Indiv * indiv, char *deriv, char *lemma)
 {
     /* returns the fitness score for running a particular set of instructions */
     uint32_t i;
-    for (i = 0; i < INST_SZ; i++)
+    for (i = 0; i < indiv->n_genes; i++)
         apply_fullinst(indiv->fi[i], deriv);
     indiv->score = levenshtein(deriv, lemma);
     return indiv->score;
@@ -302,57 +254,23 @@ void run_pop(Pop *pop, char *deriv, char *lemma)
 
 }
 
-int separate(const int p, const int r, SortAux v[]){
-    const SortAux pivot = v[r];
-    int j, k;
-    SortAux temp;
-
-    for(j = p, k = p; k < r; ++k){
-        if(v[k].value <= pivot.value){
-            temp = v[j];
-            v[j] = v[k];
-            v[k] = temp;
-            ++j;
-        }
-    }
-    v[r] = v[j];
-    v[j] = pivot;
-
-    return j;
-}
-
-void quick_sort_2(const int p, const int r, SortAux v[]){
-    if(p >= r)
-        return;    
-    int j;
-    j = separate(p, r, v);
-    quick_sort_2(p, j-1, v);
-    quick_sort_2(j+1, r, v);
-}
-
-void quick_sort(const int n, SortAux v[]){
-    /* Wrapper */
-    quick_sort_2(0, n-1, v);
-}
-
-#define ONE_EIGHTH (INT_MAX >> 3)
-#define ONE_SIXTEENTH (INT_MAX >> 4)
-
 uint32_t next_generation(Pop *pop)
 {
-    uint32_t i, j;
+    uint32_t i, j, n_genes;
 
     if (pop->indiv[i]->score == 0)
         return 0;
 
-    for (i = HALL_OF_FAME_SZ; i < pop->sz; i++) {
-        for (j = 0; j < INST_SZ; j++)
-            pop->indiv[i]->fi[j] = pop->indiv[i % HALL_OF_FAME_SZ]->fi[j];
+    n_genes = pop->indiv[i]->n_genes;
+
+    for (i = pop->best_genes_sz; i < pop->sz; i++) {
+        for (j = 0; j < n_genes; j++)
+            pop->indiv[i]->fi[j] = pop->indiv[i % pop->best_genes_sz]->fi[j];
     }
 
-    for (i = HALL_OF_FAME_SZ; i < pop->sz; i++)
-        for (j = 0; j < INST_SZ; j++)
-            if (rand() < ONE_EIGHTH)
+    for (i = pop->best_genes_sz; i < pop->sz; i++)
+        for (j = 0; j < n_genes; j++)
+            if (rand() < pop->mut_thresh)
                 pop->indiv[i]->fi[j] = gen_fullinst();
 
     pop->it++;
@@ -368,14 +286,13 @@ int main()
 
     time_seed();
 
-    alphabet = start_alphabet(input);
-    print_alphabet(alphabet);
-    pop = gen_pop(1000);
+    start_alphabet(input);
+    print_alphabet();
+    pop = gen_pop(1000, N_GENES, MUTATION_RATE, CROSSOVER_RATE,
+      BEST_GENES_PERC);
 
-    while (next_generation(pop) && pop->it < MAX_IT) {
+    while (next_generation(pop) && pop->it < MAX_IT) 
         run_pop(pop, deriv, lemma);
-        // print_pop(pop, deriv);   
-    }
 
     print_pop(pop, deriv);   
     

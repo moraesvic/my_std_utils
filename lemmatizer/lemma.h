@@ -5,8 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <time.h>
 #include <limits.h>
+
+#include "sort.h"
+#include "rand.h"
+#include "alphabet.h"
 
 /* STRUCTS AND TYPEDEFS */
 
@@ -25,15 +28,22 @@ typedef struct _fullinst {
     Instruction inst;
 } FullInst;
 
-typedef struct _alphabet {
-    char symb[CHAR_MAX];
-    uint8_t sz;
-} Alphabet;
 
-typedef struct _sortaux {
-    uint32_t index;
-    uint32_t value;
-} SortAux;
+
+typedef struct _indiv {
+    uint32_t score;
+    uint32_t n_genes;
+    FullInst *fi;
+} Indiv;
+
+typedef struct _pop {
+    uint32_t sz;
+    uint32_t best_genes_sz;
+    uint32_t mut_thresh;
+    uint32_t co_thresh;
+    uint32_t it;
+    Indiv **indiv;
+} Pop;
 
 /* ENUMS */
 
@@ -62,24 +72,23 @@ static const char *INST_NAME[] = {
 
 /* GLOBALS */
 
-static Alphabet alphabet;
 #define COND_INCONDITIONAL 0
 #define MAX_AFFIX 4
-#define INST_SZ 5
+#define N_GENES 5
 #define HALL_OF_FAME_SZ 100
-#define MAX_IT  200000
+/* defines the percentage of genes that should be kept in the next generation,
+ * when sorted by fitness criterion */
+#define BEST_GENES_PERC   0.10
+#define MUTATION_RATE     0.125
+#define CROSSOVER_RATE    0.0
+#define MAX_PRINT 5
+#define MAX_IT  10000
 
 /* FUNCTIONS */
 /* ASSEMBLY */
 uint32_t minofthree(uint32_t x, uint32_t y, uint32_t z);
 
 /* C */
-static inline char pick_from_alphabet();
 
-int separate(const int p, const int r, SortAux v[]);
-
-void quick_sort_2(const int p, const int r, SortAux v[]);
-
-void quick_sort(const int n, SortAux v[]);
 
 #endif /* F1F56538_635C_42A3_9E4E_819C1ED1AD69 */
