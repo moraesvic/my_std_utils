@@ -16,24 +16,13 @@
 typedef struct _inst {
     uint32_t action;
     char     arg;
+    int8_t   pos;
 } Instruction;
-
-typedef struct _condition {
-    int8_t pos;
-    char   ch;
-} Condition;
-
-typedef struct _fullinst {
-    Condition cond;
-    Instruction inst;
-} FullInst;
-
-
 
 typedef struct _indiv {
     uint32_t score;
     uint32_t n_genes;
-    FullInst *fi;
+    Instruction *inst;
 } Indiv;
 
 typedef struct _param {
@@ -67,6 +56,8 @@ enum {
     DEL_BEGIN,
     INS_END,
     INS_BEGIN,
+    INIT_IF,
+    END_IF,
     LAST_INST
 } INST;
 
@@ -75,26 +66,27 @@ static const char *INST_NAME[] = {
     "del-end",
     "del-begin",
     "ins_end",
-    "ins_begin"
+    "ins_begin",
+    "IF",
+    "ENDIF"
 };
 
 /* GLOBALS */
 
-#define DEBUG 0
-
 #define COND_INCONDITIONAL 0
 #define MAX_AFFIX 4
 
-#define POP_SZ  5000
-#define N_GENES 50
-#define BEST_GENES_PERC   0.10
-#define MUTATION_RATE     0.125
-#define CROSSOVER_RATE    0.0
+#define POP_SZ  200
+#define N_GENES 150
+#define BEST_GENES_PERC   0.20
+#define MUTATION_RATE     0.05
+#define CROSSOVER_RATE    0.75
 
 #define MAX_PRINT 5
 #define MAX_IT  1000
 
 #define BUF_SZ  128
+#define MAX_IF  N_GENES
 
 /* FUNCTIONS */
 /* ASSEMBLY */
@@ -118,6 +110,8 @@ uint32_t run_indiv(Indiv * indiv, Param * param, uint32_t print);
 void run_pop(Pop *pop);
 
 uint32_t next_generation(Pop *pop);
+
+void crossover(Instruction *inst1, Instruction *inst2, uint32_t sz);
 
 
 #endif /* F1F56538_635C_42A3_9E4E_819C1ED1AD69 */

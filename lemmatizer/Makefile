@@ -4,7 +4,7 @@ make: $(SRC)
 	gcc -O3 -o lemma $(SRC)
 
 debug: $(SRC)
-	gcc -O0 -g -o debug $(SRC)
+	gcc -O0 -g -D DEBUG_FLAG -o debug $(SRC)
 
 minofthree.o: minofthree.asm
 	nasm -f elf64 -o minofthree.o minofthree.asm
