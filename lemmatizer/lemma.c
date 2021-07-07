@@ -397,21 +397,39 @@ int main()
     char alphabet[] = "the quick brown fox jumps over the lazy dogçãõéVS";
     
     char *input[] =
-    {"Vamavam", "Vchamavam", "Vagarravam", "Vlargavam",
+    {
+    "Vamavam", "Vchamavam", "Vagarravam", "Vlargavam",
     "Vamar", "Vchamar", "Vagarrar", "Vlargar",
     "Vamo", "Vchamo", "Vagarro", "Vlargo",
     "Vamaria", "Vchamaria", "Vagarraria", "Vlargaria",
+    "Vcorriam", "Vfaziam", "Vsofriam", "Vescreviam",
+    "Vcorrer", "Vfazer", "Vsofrer", "Vescrever",
+    "Scarros", "Svasos", "Scastelos", "Scopos", "Srios",
     "Scasas", "Sasas", "Smalas", "Schamas", "Sgramas",
+    "Smenino", "Smenina", "Smeninos", "Smeninas",
+    "Seditores", "Samores", "Sflores", "Ssabores",
+    "Seditora", "Sprofessora", "Sprodutora", "Sescritora",
+    "Sluzes", "Scruzes", "Scapatazes",
     "Scorações", "Srações", "Smaldições", "Srazões", "Smelões",
-    "Scarrinho", "Sparquinho", "Scachorrinho", "Sgatinho"};
+    "Scarrinho", "Sparquinho", "Scachorrinho", "Sgatinho"
+    };
     char *target[] =
-    {"Vamar", "Vchamar", "Vagarrar", "Vlargar",
-    "Vamar", "Vchamar", "Vagarrar", "Vlargar",
-    "Vamar", "Vchamar", "Vagarrar", "Vlargar",
-    "Vamar", "Vchamar", "Vagarrar", "Vlargar",
-    "Scasa", "Sasa", "Smala", "Schama", "Sgrama",
-    "Scoração", "Sração", "Smaldição", "Srazão", "Smelão",
-    "Scarro", "Sparque", "Scachorro", "Sgato"};
+    {
+    "Vam", "Vcham", "Vagarr", "Vlarg",
+    "Vam", "Vcham", "Vagarr", "Vlarg",
+    "Vam", "Vcham", "Vagarr", "Vlarg",
+    "Vam", "Vcham", "Vagarr", "Vlarg",
+    "Vcorr", "Vfaz", "Vsofr", "Vescrev",
+    "Vcorr", "Vfaz", "Vsofr", "Vescrev",
+    "Scarr", "Svas", "Scastel", "Scop", "Sri",
+    "Scas", "Sas", "Smal", "Scham", "Sgram",
+    "Smenin", "Smenin", "Smenin", "Smenin",
+    "Seditor", "Samor", "Sflor", "Ssabor",
+    "Seditor", "Sprofessor", "Sprodutor", "Sescritor",
+    "Sluz", "Scruz", "Scapataz",
+    "Scoraç", "Sraç", "Smaldiç", "Sraz", "Smel",
+    "Scarr", "Sparqu", "Scachorr", "Sgat"
+    };
     
     /*
     char *input[] = {"amavam", "amar", "amo", "amaria", "vendi"};
