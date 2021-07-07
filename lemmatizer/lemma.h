@@ -77,9 +77,9 @@ static const char *INST_NAME[] = {
 #define MAX_AFFIX 4
 
 #define POP_SZ  200
-#define N_GENES 150
+#define N_GENES 50
 #define BEST_GENES_PERC   0.20
-#define MUTATION_RATE     0.05
+#define MUTATION_RATE     0.025
 #define CROSSOVER_RATE    0.75
 
 #define MAX_PRINT 5

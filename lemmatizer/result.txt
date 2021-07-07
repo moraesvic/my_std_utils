@@ -1,0 +1,498 @@
+#define POP_SZ  200
+#define N_GENES 150
+#define BEST_GENES_PERC   0.20
+#define MUTATION_RATE     0.025
+#define CROSSOVER_RATE    0.75
+
+Population consists of 200 individuals
+We have run 28269 iterations
+--- INDIVIDUAL 0 ---
+
+INSTRUCTION SET
+
+del-end
+no-op
+IF str[ -1] == m (0x6d)
+    no-op
+    del-end
+    ins_end(r = 0x72)
+    IF str[ -3] == v (0x76)
+        del-end
+        ENDIF
+    del-end
+    ENDIF
+IF str[ -3] == b (0x62)
+    ins_begin(m = 0x6d)
+    IF str[+ 2] == q (0x71)
+        del-end
+        ins_begin(x = 0x78)
+        ins_begin(i = 0x69)
+        IF str[ -2] == b (0x62)
+            del-end
+            del-begin
+            del-end
+            no-op
+            ENDIF
+        ins_begin(n = 0x6e)
+        del-end
+        del-begin
+        del-end
+        ins_begin(y = 0x79)
+        no-op
+        del-end
+        ins_begin(e = 0x65)
+        ins_begin(� = 0xb5)
+        no-op
+        del-begin
+        ins_end(S = 0x53)
+        ins_begin(g = 0x67)
+        no-op
+        ins_begin(  = 0x20)
+        IF str[ -1] == m (0x6d)
+            no-op
+            del-begin
+            del-end
+            del-begin
+            del-begin
+            del-end
+            ins_end(f = 0x66)
+            IF str[ -2] == n (0x6e)
+                ins_begin(r = 0x72)
+                ins_end(r = 0x72)
+                no-op
+                ENDIF
+            ins_begin(n = 0x6e)
+            no-op
+            del-begin
+            no-op
+            ins_begin(u = 0x75)
+            del-begin
+            del-begin
+            IF str[+ 3] == c (0x63)
+                ins_begin(r = 0x72)
+                del-begin
+                ENDIF
+            del-end
+            ins_begin(z = 0x7a)
+            ins_begin(� = 0xb5)
+            del-begin
+            ENDIF
+        no-op
+        no-op
+        ins_begin(m = 0x6d)
+        ENDIF
+    del-end
+    ins_end(� = 0xc3)
+    ins_end(c = 0x63)
+    no-op
+    ins_end(o = 0x6f)
+    del-end
+    ENDIF
+IF str[+ 2] == v (0x76)
+    ENDIF
+ENDIF
+ENDIF
+IF str[ -2] == h (0x68)
+    del-end
+    no-op
+    del-end
+    ENDIF
+IF str[ -4] == � (0xc3)
+    del-end
+    del-end
+    ENDIF
+IF str[ -2] == r (0x72)
+    IF str[+ 3] == z (0x7a)
+        ins_end(a = 0x61)
+        ins_begin(d = 0x64)
+        del-begin
+        no-op
+        ins_end(c = 0x63)
+        del-end
+        ins_begin(s = 0x73)
+        ENDIF
+    IF str[+ 3] == c (0x63)
+        no-op
+        del-end
+        del-end
+        ins_begin(n = 0x6e)
+        ins_end(a = 0x61)
+        del-end
+        no-op
+        del-begin
+        ins_begin(y = 0x79)
+        del-begin
+        del-end
+        del-end
+        del-end
+        IF str[ -3] == b (0x62)
+            ins_begin(e = 0x65)
+            ENDIF
+        ins_end(� = 0xa9)
+        ENDIF
+    ins_end(q = 0x71)
+    ENDIF
+IF str[ -2] == n (0x6e)
+    no-op
+    ins_end(o = 0x6f)
+    ENDIF
+IF str[ -3] == a (0x61)
+    ins_end(l = 0x6c)
+    ENDIF
+IF str[ -2] == g (0x67)
+    no-op
+    ins_end(g = 0x67)
+    del-end
+    ins_end(y = 0x79)
+    ENDIF
+no-op
+del-end
+IF str[ -2] == i (0x69)
+    del-end
+    del-end
+    IF str[ -4] == o (0x6f)
+        IF str[ -4] == c (0x63)
+            IF str[+ 3] == � (0xb5)
+                IF str[ -3] == x (0x78)
+                    ins_end(d = 0x64)
+                    ENDIF
+                ins_begin(� = 0xc3)
+                no-op
+                ins_end(t = 0x74)
+                ENDIF
+
+         Vamavam ->              Vam (score:  0)
+       Vchamavam ->            Vcham (score:  0)
+      Vagarravam ->           Vagarr (score:  0)
+       Vlargavam ->            Vlarg (score:  0)
+           Vamar ->              Vam (score:  0)
+         Vchamar ->            Vcham (score:  0)
+        Vagarrar ->           Vagarr (score:  0)
+         Vlargar ->            Vlarg (score:  0)
+            Vamo ->              Vam (score:  0)
+          Vchamo ->            Vcham (score:  0)
+         Vagarro ->           Vagarr (score:  0)
+          Vlargo ->            Vlarg (score:  0)
+         Vamaria ->              Vam (score:  0)
+       Vchamaria ->            Vcham (score:  0)
+      Vagarraria ->           Vagarr (score:  0)
+       Vlargaria ->            Vlarg (score:  0)
+        Vcorriam ->            Vcorr (score:  0)
+         Vfaziam ->             Vfaz (score:  0)
+        Vsofriam ->            Vsofr (score:  0)
+      Vescreviam ->          Vescrev (score:  0)
+         Vcorrer ->            Vcorr (score:  0)
+          Vfazer ->             Vfaz (score:  0)
+         Vsofrer ->            Vsofr (score:  0)
+       Vescrever ->          Vescrev (score:  0)
+         Scarros ->            Scarr (score:  0)
+          Svasos ->             Svas (score:  0)
+       Scastelos ->          Scastel (score:  0)
+          Scopos ->             Scop (score:  0)
+           Srios ->              Sri (score:  0)
+          Scasas ->             Scas (score:  0)
+           Sasas ->              Sas (score:  0)
+          Smalas ->             Smal (score:  0)
+         Schamas ->            Scham (score:  0)
+         Sgramas ->            Sgram (score:  0)
+         Smenino ->           Smenin (score:  0)
+         Smenina ->           Smenin (score:  0)
+        Smeninos ->           Smenin (score:  0)
+        Smeninas ->           Smenin (score:  0)
+       Seditores ->          Seditor (score:  0)
+         Samores ->            Samor (score:  0)
+         Sflores ->            Sflor (score:  0)
+        Ssabores ->           Ssabor (score:  0)
+        Seditora ->          Seditor (score:  0)
+     Sprofessora ->       Sprofessor (score:  0)
+      Sprodutora ->        Sprodutor (score:  0)
+      Sescritora ->        Sescritor (score:  0)
+          Sluzes ->             Sluz (score:  0)
+         Scruzes ->            Scruz (score:  0)
+      Scapatazes ->         Scapataz (score:  0)
+     Scorações ->          Scoraç (score:  0)
+       Srações ->            Sraç (score:  0)
+    Smaldições ->         Smaldiç (score:  0)
+        Srazões ->             Sraz (score:  0)
+        Smelões ->             Smel (score:  0)
+       Scarrinho ->            Scarr (score:  0)
+      Sparquinho ->           Sparqu (score:  0)
+    Scachorrinho ->         Scachorr (score:  0)
+        Sgatinho ->             Sgat (score:  0)
+SCORE:  0
+
+
+/* ----- */
+
+#define POP_SZ  200
+#define N_GENES 75
+#define BEST_GENES_PERC   0.20
+#define MUTATION_RATE     0.025
+#define CROSSOVER_RATE    0.75
+
+Population consists of 200 individuals
+We have run 35583 iterations
+--- INDIVIDUAL 0 ---
+
+INSTRUCTION SET
+
+ENDIF
+IF str[ -4] == � (0xc3)
+    del-end
+    IF str[ -4] == � (0xc3)
+        del-end
+        ENDIF
+    ENDIF
+no-op
+IF str[ -4] == n (0x6e)
+    ins_end(m = 0x6d)
+    ENDIF
+IF str[ -2] == m (0x6d)
+    ins_end(j = 0x6a)
+    ENDIF
+IF str[ -2] == r (0x72)
+    ins_end(k = 0x6b)
+    ENDIF
+ENDIF
+del-end
+IF str[ -2] == i (0x69)
+    del-end
+    del-end
+    ENDIF
+IF str[ -2] == h (0x68)
+    del-end
+    del-end
+    ENDIF
+IF str[ -2] == g (0x67)
+    ins_end(� = 0xa3)
+    ENDIF
+ENDIF
+del-end
+IF str[ -1] == m (0x6d)
+    IF str[+ 3] == n (0x6e)
+        del-begin
+        ins_end(x = 0x78)
+        del-begin
+        no-op
+        no-op
+        IF str[ -3] == t (0x74)
+            ins_begin(r = 0x72)
+            ENDIF
+        no-op
+        ENDIF
+    del-end
+    IF str[ -4] == a (0x61)
+        del-end
+        ENDIF
+    IF str[+ 4] == � (0xb5)
+        ins_begin(f = 0x66)
+        del-end
+        IF str[ -2] == o (0x6f)
+            no-op
+            del-begin
+            ins_end(i = 0x69)
+            del-end
+            IF str[+ 3] == s (0x73)
+                IF str[+ 3] == g (0x67)
+                    ins_begin(e = 0x65)
+                    no-op
+                    no-op
+                    no-op
+                    del-end
+                    ins_end(s = 0x73)
+                    ins_end(� = 0xb5)
+                    no-op
+                    ENDIF
+                del-end
+                no-op
+                del-end
+                no-op
+                ENDIF
+            IF str[ -3] == t (0x74)
+                del-end
+                ENDIF
+
+         Vamavam ->              Vam (score:  0)
+       Vchamavam ->            Vcham (score:  0)
+      Vagarravam ->           Vagarr (score:  0)
+       Vlargavam ->            Vlarg (score:  0)
+           Vamar ->              Vam (score:  0)
+         Vchamar ->            Vcham (score:  0)
+        Vagarrar ->           Vagarr (score:  0)
+         Vlargar ->            Vlarg (score:  0)
+            Vamo ->              Vam (score:  0)
+          Vchamo ->            Vcham (score:  0)
+         Vagarro ->           Vagarr (score:  0)
+          Vlargo ->            Vlarg (score:  0)
+         Vamaria ->              Vam (score:  0)
+       Vchamaria ->            Vcham (score:  0)
+      Vagarraria ->           Vagarr (score:  0)
+       Vlargaria ->            Vlarg (score:  0)
+        Vcorriam ->            Vcorr (score:  0)
+         Vfaziam ->             Vfaz (score:  0)
+        Vsofriam ->            Vsofr (score:  0)
+      Vescreviam ->          Vescrev (score:  0)
+         Vcorrer ->            Vcorr (score:  0)
+          Vfazer ->             Vfaz (score:  0)
+         Vsofrer ->            Vsofr (score:  0)
+       Vescrever ->          Vescrev (score:  0)
+         Scarros ->            Scarr (score:  0)
+          Svasos ->             Svas (score:  0)
+       Scastelos ->          Scastel (score:  0)
+          Scopos ->             Scop (score:  0)
+           Srios ->              Sri (score:  0)
+          Scasas ->             Scas (score:  0)
+           Sasas ->              Sas (score:  0)
+          Smalas ->             Smal (score:  0)
+         Schamas ->            Scham (score:  0)
+         Sgramas ->            Sgram (score:  0)
+         Smenino ->           Smenin (score:  0)
+         Smenina ->           Smenin (score:  0)
+        Smeninos ->           Smenin (score:  0)
+        Smeninas ->           Smenin (score:  0)
+       Seditores ->          Seditor (score:  0)
+         Samores ->            Samor (score:  0)
+         Sflores ->            Sflor (score:  0)
+        Ssabores ->           Ssabor (score:  0)
+        Seditora ->          Seditor (score:  0)
+     Sprofessora ->       Sprofessor (score:  0)
+      Sprodutora ->        Sprodutor (score:  0)
+      Sescritora ->        Sescritor (score:  0)
+          Sluzes ->             Sluz (score:  0)
+         Scruzes ->            Scruz (score:  0)
+      Scapatazes ->         Scapataz (score:  0)
+     Scorações ->          Scoraç (score:  0)
+       Srações ->            Sraç (score:  0)
+    Smaldições ->         Smaldiç (score:  0)
+        Srazões ->             Sraz (score:  0)
+        Smelões ->             Smel (score:  0)
+       Scarrinho ->            Scarr (score:  0)
+      Sparquinho ->           Sparqu (score:  0)
+    Scachorrinho ->         Scachorr (score:  0)
+        Sgatinho ->             Sgat (score:  0)
+SCORE:  0
+
+/* ----- */
+
+#define POP_SZ  200
+#define N_GENES 50
+#define BEST_GENES_PERC   0.20
+#define MUTATION_RATE     0.025
+#define CROSSOVER_RATE    0.75
+
+Population consists of 200 individuals
+We have run 69192 iterations
+--- INDIVIDUAL 0 ---
+
+INSTRUCTION SET
+
+del-end
+IF str[ -4] == � (0xc3)
+    del-end
+    del-end
+    no-op
+    ENDIF
+IF str[ -2] == g (0x67)
+    ins_end(S = 0x53)
+    ENDIF
+IF str[ -1] == m (0x6d)
+    no-op
+    del-end
+    del-end
+    IF str[ -3] == i (0x69)
+        ins_end(f = 0x66)
+        ENDIF
+    ENDIF
+IF str[ -4] == n (0x6e)
+    IF str[+ 2] == � (0xb5)
+        ENDIF
+    ins_end(o = 0x6f)
+    ENDIF
+IF str[ -2] == h (0x68)
+    ins_begin(y = 0x79)
+    del-begin
+    ins_begin(a = 0x61)
+    del-begin
+    del-end
+    del-end
+    ENDIF
+IF str[ -3] == a (0x61)
+    no-op
+    ins_end(e = 0x65)
+    ENDIF
+IF str[ -2] == i (0x69)
+    del-end
+    ENDIF
+IF str[ -2] == r (0x72)
+    IF str[ -1] == m (0x6d)
+        ins_begin(i = 0x69)
+        ins_end(l = 0x6c)
+        ENDIF
+    ins_end(b = 0x62)
+    ENDIF
+ENDIF
+del-end
+IF str[ -2] == i (0x69)
+    del-end
+    IF str[ -1] == b (0x62)
+        del-end
+
+         Vamavam ->              Vam (score:  0)
+       Vchamavam ->            Vcham (score:  0)
+      Vagarravam ->           Vagarr (score:  0)
+       Vlargavam ->            Vlarg (score:  0)
+           Vamar ->              Vam (score:  0)
+         Vchamar ->            Vcham (score:  0)
+        Vagarrar ->           Vagarr (score:  0)
+         Vlargar ->            Vlarg (score:  0)
+            Vamo ->              Vam (score:  0)
+          Vchamo ->            Vcham (score:  0)
+         Vagarro ->           Vagarr (score:  0)
+          Vlargo ->            Vlarg (score:  0)
+         Vamaria ->              Vam (score:  0)
+       Vchamaria ->            Vcham (score:  0)
+      Vagarraria ->           Vagarr (score:  0)
+       Vlargaria ->            Vlarg (score:  0)
+        Vcorriam ->            Vcorr (score:  0)
+         Vfaziam ->             Vfaz (score:  0)
+        Vsofriam ->            Vsofr (score:  0)
+      Vescreviam ->          Vescrev (score:  0)
+         Vcorrer ->            Vcorr (score:  0)
+          Vfazer ->             Vfaz (score:  0)
+         Vsofrer ->            Vsofr (score:  0)
+       Vescrever ->          Vescrev (score:  0)
+         Scarros ->            Scarr (score:  0)
+          Svasos ->             Svas (score:  0)
+       Scastelos ->          Scastel (score:  0)
+          Scopos ->             Scop (score:  0)
+           Srios ->              Sri (score:  0)
+          Scasas ->             Scas (score:  0)
+           Sasas ->              Sas (score:  0)
+          Smalas ->             Smal (score:  0)
+         Schamas ->            Scham (score:  0)
+         Sgramas ->            Sgram (score:  0)
+         Smenino ->           Smenin (score:  0)
+         Smenina ->           Smenin (score:  0)
+        Smeninos ->           Smenin (score:  0)
+        Smeninas ->           Smenin (score:  0)
+       Seditores ->          Seditor (score:  0)
+         Samores ->            Samor (score:  0)
+         Sflores ->            Sflor (score:  0)
+        Ssabores ->           Ssabor (score:  0)
+        Seditora ->          Seditor (score:  0)
+     Sprofessora ->       Sprofessor (score:  0)
+      Sprodutora ->        Sprodutor (score:  0)
+      Sescritora ->        Sescritor (score:  0)
+          Sluzes ->             Sluz (score:  0)
+         Scruzes ->            Scruz (score:  0)
+      Scapatazes ->         Scapataz (score:  0)
+     Scorações ->          Scoraç (score:  0)
+       Srações ->            Sraç (score:  0)
+    Smaldições ->         Smaldiç (score:  0)
+        Srazões ->             Sraz (score:  0)
+        Smelões ->             Smel (score:  0)
+       Scarrinho ->            Scarr (score:  0)
+      Sparquinho ->           Sparqu (score:  0)
+    Scachorrinho ->         Scachorr (score:  0)
+        Sgatinho ->             Sgat (score:  0)
+SCORE:  0
