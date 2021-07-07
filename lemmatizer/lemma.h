@@ -36,7 +36,14 @@ typedef struct _indiv {
     FullInst *fi;
 } Indiv;
 
+typedef struct _param {
+    uint32_t sz;
+    char  **input;
+    char  **target;
+} Param;
+
 typedef struct _pop {
+    Param *param;
     uint32_t sz;
     uint32_t best_genes_sz;
     uint32_t mut_thresh;
@@ -50,6 +57,7 @@ typedef struct _pop {
 enum {
     OK        = 0,
     EMPTY_STR,
+    BUF_OVERFLOW,
     INST_CODE_INEXISTENT
 } ERR;
 
@@ -72,23 +80,44 @@ static const char *INST_NAME[] = {
 
 /* GLOBALS */
 
+#define DEBUG 0
+
 #define COND_INCONDITIONAL 0
 #define MAX_AFFIX 4
-#define N_GENES 5
-#define HALL_OF_FAME_SZ 100
-/* defines the percentage of genes that should be kept in the next generation,
- * when sorted by fitness criterion */
+
+#define POP_SZ  5000
+#define N_GENES 50
 #define BEST_GENES_PERC   0.10
 #define MUTATION_RATE     0.125
 #define CROSSOVER_RATE    0.0
+
 #define MAX_PRINT 5
-#define MAX_IT  10000
+#define MAX_IT  1000
+
+#define BUF_SZ  128
 
 /* FUNCTIONS */
 /* ASSEMBLY */
 uint32_t minofthree(uint32_t x, uint32_t y, uint32_t z);
 
 /* C */
+
+Indiv *gen_indiv(uint32_t n_genes);
+
+void print_indiv(Indiv * indiv, Param * param);
+
+void print_pop(Pop *pop);
+
+Pop *gen_pop
+(char **input, char **target, uint32_t param_sz,
+uint32_t sz, uint32_t n_genes, double mut_rate,
+double co_rate, double best_perc);
+
+uint32_t run_indiv(Indiv * indiv, Param * param, uint32_t print);
+
+void run_pop(Pop *pop);
+
+uint32_t next_generation(Pop *pop);
 
 
 #endif /* F1F56538_635C_42A3_9E4E_819C1ED1AD69 */

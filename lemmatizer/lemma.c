@@ -40,11 +40,11 @@ uint32_t delete_begin(char *s)
     return OK;
 }
 
-/* we assume buffer is large enough ... */
-
 uint32_t insert_end(char *s, char ch)
 {
     uint32_t sz = strlen(s);
+    if (sz == BUF_SZ - 1)
+        return BUF_OVERFLOW;
     s[sz] = ch;
     s[sz + 1] = '\0';
     return OK;
@@ -53,6 +53,8 @@ uint32_t insert_end(char *s, char ch)
 uint32_t insert_begin(char *s, char ch)
 {
     uint32_t i, sz = strlen(s);
+    if (sz == BUF_SZ - 1)
+        return BUF_OVERFLOW;
     s[sz + 1] = '\0';
     for (i = sz; i > 0; i--)
         s[i] = s[i - 1];
@@ -82,8 +84,10 @@ uint32_t apply_inst(Instruction inst, char * s)
     default:
         ret = INST_CODE_INEXISTENT;
     }
-    if (ret != OK) 
+#if DEBUG
+    if (ret != OK)
         fprintf(stderr, "Error applying instruction: %u\n", ret);
+#endif
     return ret;
 }
 
@@ -132,9 +136,14 @@ void print_condition(Condition cond)
 {
     printf("IF ");
     if (cond.pos == COND_INCONDITIONAL)
-        printf("(1)");
-    else
-        printf("str[%d] == %c (0x%02x)", cond.pos, cond.ch, cond.ch);
+        printf("(1)                 ");
+    else {
+        if (cond.pos > 0)
+            printf("str[+%2d]", cond.pos);
+        else
+            printf("str[%3d]", cond.pos);
+        printf(" == %c (0x%02x)", cond.ch, (unsigned char)cond.ch);
+    }
 }
 
 FullInst gen_fullinst()
@@ -153,10 +162,10 @@ void print_fullinst(FullInst fi)
     printf("\n");
 }
 
-uint32_t apply_fullinst(FullInst fi, char *s)
+uint32_t apply_fullinst(FullInst fi, char *orig, char *s)
 {
     uint32_t ret = OK;
-    if (check_condition(fi.cond, s))
+    if (check_condition(fi.cond, orig))
         ret = apply_inst(fi.inst, s);
     return ret;
 }
@@ -174,36 +183,46 @@ Indiv *gen_indiv(uint32_t n_genes)
 }
 
 
-void print_indiv(Indiv * indiv, char *deriv)
+void print_indiv(Indiv * indiv, Param * param)
 {
     uint32_t i;
-    char write_str[1000];
-    strcpy(write_str, deriv);
-    printf("SCORE = %u\n", indiv->score);
     printf("INSTRUCTION SET\n\n");
-    for (i = 0; i < indiv->n_genes; i++) {
-        apply_fullinst(indiv->fi[i], write_str);
+    for (i = 0; i < indiv->n_genes; i++)
         print_fullinst(indiv->fi[i]);
-    }
-    printf("%s -> %s\n\n", deriv, write_str);
+    run_indiv(indiv, param, 1);
 }
 
-void print_pop(Pop *pop, char *deriv)
+void print_pop(Pop *pop)
 {
     uint32_t i;
 
     printf("Population consists of %u individuals\n", pop->sz);
     printf("We have run %u iterations\n", pop->it);
-    for (i = 0; i < MAX_PRINT; i++)
-        print_indiv(pop->indiv[i], deriv);
+
+    for (i = 0; i < MAX_PRINT; i++) {
+        printf("--- INDIVIDUAL %u ---\n\n", i);
+        print_indiv(pop->indiv[i], pop->param);
+    }
+}
+
+void print_pop_short(Pop *pop)
+{
+    printf("%10u iterations : best score %3u\n", pop->it, pop->indiv[0]->score);
 }
 
 Pop *gen_pop
-(uint32_t sz, uint32_t n_genes, double mut_rate,
+(char **input, char **target, uint32_t param_sz,
+uint32_t sz, uint32_t n_genes, double mut_rate,
 double co_rate, double best_perc)
 {
     uint32_t i, j;
     Pop *pop = malloc(sizeof(Pop));
+
+    pop->param = malloc(sizeof(Param));
+    pop->param->input = input;
+    pop->param->target = target;
+    pop->param->sz = param_sz;
+
     pop->sz = sz;
     pop->mut_thresh = (int)((double)INT_MAX * mut_rate);
     pop->co_thresh = (int)((double)INT_MAX * co_rate);
@@ -215,29 +234,45 @@ double co_rate, double best_perc)
     return pop;
 }
 
-inline uint32_t run_indiv(Indiv * indiv, char *deriv, char *lemma)
+uint32_t run_indiv(Indiv * indiv, Param * param, uint32_t print)
 {
     /* returns the fitness score for running a particular set of instructions */
-    uint32_t i;
-    for (i = 0; i < indiv->n_genes; i++)
-        apply_fullinst(indiv->fi[i], deriv);
-    indiv->score = levenshtein(deriv, lemma);
+    uint32_t i, j, ptl_score;
+    char tmp[BUF_SZ];
+    indiv->score = 0;
+
+    if (print)
+        printf("\n");
+
+    for (i = 0; i < param->sz; i++) {
+        strcpy(tmp, param->input[i]);
+        for (j = 0; j < indiv->n_genes; j++) {
+            apply_fullinst(indiv->fi[j], param->input[i], tmp);
+#if DEBUG
+            if (print)
+                printf("%s\n", tmp);
+#endif
+        }
+        ptl_score = levenshtein(param->target[i], tmp);
+        if (print)
+            printf("%16s -> %16s (score: %2u)\n", param->input[i], tmp, ptl_score);
+        indiv->score += ptl_score;
+    }
+    if (print)
+        printf("SCORE: %2u\n\n", indiv->score);
     return indiv->score;
 }
 
-void run_pop(Pop *pop, char *deriv, char *lemma)
+void run_pop(Pop *pop)
 {
     uint32_t i;
     SortAux saux[pop->sz];
     Indiv *tmp[pop->sz];
-    char write_str[1000];
 
-    for (i = 0; i < pop->sz; i++) {
-        strcpy(write_str, deriv);
+    for (i = 0; i < pop->sz; i++)
         /* break if a perfect set of instructions has been found */
-        if(run_indiv(pop->indiv[i], write_str, lemma) == 0)
+        if(run_indiv(pop->indiv[i], pop->param, 0) == 0)
             break;
-    }
 
     /* sort according to score */
 
@@ -277,24 +312,50 @@ uint32_t next_generation(Pop *pop)
     return 1;
 }
 
+#include <signal.h>
+#include <unistd.h>
+
+Pop * pop;
+
+void interrupt_handler(int signum)
+{
+    print_pop(pop);
+    exit(0);
+}
+
 int main()
 {
-    Pop * pop;
-    char input[] = "the quick brown fox jumps over the lazy dog";
-    char deriv[1000] = "coracoes";
-    char lemma[1000] = "coracao";
+    /*
+    char s[] = "amav";
+    Instruction inst1 = {DEL_END, 'r'};
+    Instruction inst2 = {INS_END, 'r'};
+    apply_inst(inst1, s);
+    printf("%s\n", s);
+    apply_inst(inst2, s);
+    printf("%s\n", s);
+    return 0;
+    */
+    signal(SIGINT, interrupt_handler);
+
+    char alphabet[] = "the quick brown fox jumps over the lazy dogçãõ";
+    char *input[] = {"amavam", "amar", "amo", "amaria", "vendi", "partir", "casas", "corações", "editores", "carrinho", "pães"};
+    char *target[] = {"amar", "amar", "amar", "amar", "vender", "partir", "casa", "coração", "editor", "carro", "pão"};
+    uint32_t param_sz = sizeof(input) / sizeof(char*);
 
     time_seed();
 
-    start_alphabet(input);
+    start_alphabet(alphabet);
     print_alphabet();
-    pop = gen_pop(1000, N_GENES, MUTATION_RATE, CROSSOVER_RATE,
-      BEST_GENES_PERC);
+    pop = gen_pop(input, target, param_sz, POP_SZ, N_GENES, MUTATION_RATE,
+      CROSSOVER_RATE, BEST_GENES_PERC);
 
-    while (next_generation(pop) && pop->it < MAX_IT) 
-        run_pop(pop, deriv, lemma);
+    while (next_generation(pop)) {
+        run_pop(pop);
+        if (pop->it % 100 == 0)
+            print_pop_short(pop);
+    }
 
-    print_pop(pop, deriv);   
+    print_pop(pop);
     
     return 0;
 }
