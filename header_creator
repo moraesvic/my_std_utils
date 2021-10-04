@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [ $# -lt 1 -o $# -gt 2 ] ; then
+	>&2 echo -e "Usage: ($0) project_name [repo_url]"
+	exit 1
+fi
+
+project_name="$1"
+
+if [ $# -eq 2 ] ; then
+	repo_url="$2"
+fi
+
+first_line="$project_name"
+
+if [ -n "$repo_url" ] ; then
+	first_line="$first_line <$repo_url>"
+fi
+
+year=$(date +%Y)
+os_info_1="$(uname -sr) ($(uname -p))"
+os_info_2="$(uname -v)"
+
+string=$(cat << EOF
+
+$first_line
+(C) Victor Moraes, $year <victor@vulpi-ideas.com>
+License GPLv3+ <https://gnu.org/licenses/gpl.html>
+
+This is free software.
+You are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Developed in $os_info_1
+$os_info_2
+ 
+EOF
+)
+
+python_string=$(cat << EOF
+string = """$string"""
+arr = string.split('\n')
+print("#" * 60)
+
+for line in arr:
+	print(f"# {line}", end="")
+	print(" " * (60 - len(line) - 3), end="")
+	print("#")
+
+print("#" * 60)
+EOF
+)
+
+python3 -c "$python_string"
