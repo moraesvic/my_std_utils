@@ -20,3 +20,5 @@ EOF
 
 python_script="$(dirname "$0")/square_it.py"
 $python_script "$long_header"
+
+echo ""

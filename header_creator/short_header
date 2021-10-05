@@ -25,4 +25,5 @@ if [ "$1" == "-n" ] ; then
 	echo "$short_header"
 else
 	sed -rn 's/^(.*)$/# \1/p' <<< $short_header
+	echo ""
 fi
