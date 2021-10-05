@@ -3,6 +3,7 @@
 ############################################################
 # Usage options
 # -i : interactive -- calls a prompt to request information
+#      Otherwise, will read from file "info"
 
 if [ -z "$(which python3)" ] ; then
 	>&2 echo "python must be installed to run this script"
